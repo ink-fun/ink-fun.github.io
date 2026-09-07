@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080808">
+  <meta name="description" content="fuckit.exe — a minimal executable project by ink-fun.">
+  <meta name="color-scheme" content="dark">
+  <title>fuckit.exe — ink-fun</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/svg+xml" href='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"%3E%3Crect width="64" height="64" rx="16" fill="%230d0d0d"/%3E%3Cpath d="M19 20h26M19 32h17M19 44h26" stroke="%23fff" stroke-width="5" stroke-linecap="round"/%3E%3C/svg%3E'>
+</head>
+
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <div class="grid" aria-hidden="true"></div>
+
+  <main>
+    <section class="hero section-reveal" aria-labelledby="hero-title">
+      <div class="hero-inner">
+        <div class="eyebrow reveal-item" style="--delay: 0ms">
+          <span class="status-dot" aria-hidden="true"></span>
+          INK-FUN / EXECUTABLE
+        </div>
+
+        <h1 id="hero-title" class="reveal-item" style="--delay: 90ms">fuckit<span>.exe</span></h1>
+
+        <p class="subtitle reveal-item" style="--delay: 180ms">
+          a small executable project built for one purpose:
+          just fuckin' use it.
+        </p>
+
+        <div class="actions reveal-item" style="--delay: 270ms">
+          <a
+            class="btn btn-primary"
+            href="./fuckit.exe"
+            download="fuckit.exe"
+            aria-label="Download fuckit.exe"
+          >
+            <span>download</span>
+            <svg viewBox="0 0 18 18" aria-hidden="true">
+              <path d="M4 9h10M10 5l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+
+          <a
+            class="btn btn-secondary"
+            href="https://github.com/ink-fun/ink-fun.github.io"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open the GitHub repository"
+          >
+            github
+          </a>
+        </div>
+
+        <div class="hero-meta reveal-item" style="--delay: 360ms">
+          <span>github pages</span>
+          <span class="meta-separator" aria-hidden="true"></span>
+          <span>ink-fun</span>
+        </div>
+      </div>
+
+      <div class="scroll-hint" aria-hidden="true">
+        <span></span>
+        <small>scroll</small>
+      </div>
+    </section>
+
+    <section class="info section-reveal" id="about" aria-labelledby="about-title">
+      <div class="section-shell">
+        <div class="section-label">01 / ABOUT</div>
+
+        <div class="info-grid">
+          <div>
+            <h2 id="about-title">built small.<br>kept simple.</h2>
+          </div>
+
+          <div class="info-copy">
+            <p>
+              fuckit.exe is a compact standalone project from ink-fun.
+              no dashboards, no clutter — just a direct entry point to the executable.
+            </p>
+
+            <div class="spec-card">
+              <div class="spec-row">
+                <span>project</span>
+                <strong>fuckit.exe</strong>
+              </div>
+              <div class="spec-row">
+                <span>distribution</span>
+                <strong>github</strong>
+              </div>
+              <div class="spec-row">
+                <span>host</span>
+                <strong>github pages</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>© <span id="year"></span> ink-fun</span>
+      <span>fuckit.exe</span>
+    </div>
+  </footer>
+
+  <style>
+:root {
+  --bg: #080808;
+  --bg-soft: #0d0d0d;
+  --surface: #121212;
+  --surface-2: #181818;
+  --surface-3: #202020;
+  --border: #252525;
+  --border-soft: rgba(255, 255, 255, 0.07);
+  --text: #f5f5f5;
+  --muted: #a0a0a0;
+  --muted-2: #707070;
+  --white: #ffffff;
+  --radius-lg: 28px;
+  --radius-md: 16px;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.035), transparent 34%),
+    radial-gradient(circle at 12% 78%, rgba(255, 255, 255, 0.018), transparent 30%),
+    var(--bg);
+  color: var(--text);
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.noise {
+  position: fixed;
+  inset: -50%;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0.026;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.85'/%3E%3C/svg%3E");
+  transform: rotate(0.001deg);
+}
+
+.grid {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0.16;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 78%);
+}
+
+.ambient {
+  position: fixed;
+  z-index: -1;
+  width: 28rem;
+  height: 28rem;
+  border: 1px solid rgba(255,255,255,.035);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(.2px);
+  transition: transform 120ms linear;
+}
+
+.ambient::before,
+.ambient::after {
+  content: "";
+  position: absolute;
+  inset: 16%;
+  border-radius: inherit;
+  border: 1px solid rgba(255,255,255,.024);
+}
+
+.ambient::after {
+  inset: 34%;
+}
+
+.ambient-one {
+  top: 11%;
+  left: -14rem;
+}
+
+.ambient-two {
+  right: -13rem;
+  top: 52%;
+  width: 24rem;
+  height: 24rem;
+}
+
+main {
+  position: relative;
+}
+
+.hero {
+  position: relative;
+  min-height: 88vh;
+  display: grid;
+  place-items: center;
+  padding: 120px 24px 100px;
+}
+
+.hero-inner {
+  width: min(100%, 980px);
+  text-align: center;
+}
+
+.eyebrow,
+.hero-meta,
+.section-label,
+.spec-row span,
+.footer {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 26px;
+  color: #898989;
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d8d8d8;
+  box-shadow: 0 0 16px rgba(255,255,255,.26);
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  max-width: 100%;
+  font-size: clamp(64px, 10vw, 132px);
+  line-height: .9;
+  letter-spacing: -.07em;
+  font-weight: 800;
+}
+
+h1 span {
+  color: #6f6f6f;
+  font-weight: 600;
+}
+
+.subtitle {
+  width: min(570px, 100%);
+  margin: 28px auto 0;
+  color: var(--muted);
+  font-size: clamp(15px, 2vw, 18px);
+  line-height: 1.65;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 11px;
+  margin-top: 36px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 13px;
+  border: 1px solid transparent;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 180ms var(--ease),
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    filter 180ms ease;
+}
+
+.btn-primary {
+  min-width: 196px;
+  min-height: 58px;
+  padding: 0 22px;
+  gap: 12px;
+  background: var(--white);
+  color: #050505;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  box-shadow:
+    0 10px 34px rgba(0,0,0,.36),
+    0 0 0 1px rgba(255,255,255,.12);
+}
+
+.btn-primary svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 180ms var(--ease);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.025);
+  filter: brightness(1.05);
+  box-shadow:
+    0 14px 42px rgba(0,0,0,.45),
+    0 0 30px rgba(255,255,255,.075);
+}
+
+.btn-primary:hover svg {
+  transform: translateX(3px);
+}
+
+.btn-primary:active {
+  transform: translateY(1px) scale(.985);
+}
+
+.btn-secondary {
+  min-width: 98px;
+  min-height: 37px;
+  padding: 0 15px;
+  background: rgba(255,255,255,.025);
+  border-color: var(--border);
+  color: #a9a9a9;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .01em;
+}
+
+.btn-secondary:hover {
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.05);
+  border-color: #333;
+  color: var(--text);
+}
+
+.btn:focus-visible {
+  outline: 2px solid #efefef;
+  outline-offset: 4px;
+}
+
+.hero-meta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 34px;
+  color: var(--muted-2);
+  font-size: 10px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.meta-separator {
+  width: 20px;
+  height: 1px;
+  background: #2c2c2c;
+}
+
+.scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transform: translateX(-50%);
+  color: #555;
+}
+
+.scroll-hint span {
+  width: 1px;
+  height: 28px;
+  background: linear-gradient(to bottom, rgba(255,255,255,.15), transparent);
+  animation: scroll-line 2.2s ease-in-out infinite;
+}
+
+.scroll-hint small {
+  font: 9px/1 "JetBrains Mono", monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.info {
+  padding: 110px 24px 140px;
+}
+
+.section-shell {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  padding: 34px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, rgba(255,255,255,.018), rgba(255,255,255,.008));
+  box-shadow: 0 28px 80px rgba(0,0,0,.18);
+}
+
+.section-label {
+  margin-bottom: 62px;
+  color: #666;
+  font-size: 10px;
+  letter-spacing: .16em;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: start;
+}
+
+.info h2 {
+  font-size: clamp(38px, 5vw, 62px);
+  line-height: .98;
+  letter-spacing: -.05em;
+  font-weight: 700;
+}
+
+.info-copy > p {
+  color: #929292;
+  font-size: 16px;
+  line-height: 1.75;
+  max-width: 480px;
+}
+
+.spec-card {
+  margin-top: 36px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,.016);
+}
+
+.spec-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 15px 17px;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+
+.spec-row:last-child {
+  border-bottom: 0;
+}
+
+.spec-row span {
+  color: #616161;
+  font-size: 9px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.spec-row strong {
+  color: #c8c8c8;
+  font: 600 11px/1.2 "JetBrains Mono", monospace;
+  text-transform: lowercase;
+}
+
+.footer {
+  padding: 26px 24px 32px;
+  color: #5d5d5d;
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.footer-inner {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,.05);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.reveal-item,
+.section-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 700ms var(--ease),
+    transform 700ms var(--ease);
+}
+
+.hero .reveal-item {
+  transition-delay: var(--delay);
+}
+
+.hero.section-reveal.is-visible .reveal-item,
+.section-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes scroll-line {
+  0%, 100% {
+    opacity: .25;
+    transform: scaleY(.78);
+  }
+  50% {
+    opacity: .8;
+    transform: scaleY(1);
+  }
+}
+
+@media (max-width: 760px) {
+  .hero {
+    min-height: 82vh;
+    padding: 100px 18px 80px;
+  }
+
+  .hero-inner {
+    width: 100%;
+  }
+
+  .subtitle {
+    max-width: 440px;
+    margin-top: 23px;
+  }
+
+  .info {
+    padding: 78px 18px 100px;
+  }
+
+  .section-shell {
+    padding: 24px;
+    border-radius: 21px;
+  }
+
+  .section-label {
+    margin-bottom: 38px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .footer {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .ambient {
+    width: 20rem;
+    height: 20rem;
+  }
+
+  .ambient-one {
+    left: -13rem;
+  }
+
+  .ambient-two {
+    right: -12rem;
+  }
+}
+
+@media (max-width: 460px) {
+  h1 {
+    font-size: clamp(54px, 17vw, 78px);
+  }
+
+  .subtitle {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .btn-primary {
+    width: min(100%, 196px);
+  }
+
+  .hero-meta {
+    flex-wrap: wrap;
+    row-gap: 7px;
+  }
+
+  .scroll-hint {
+    bottom: 18px;
+  }
+
+  .spec-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .reveal-item,
+  .section-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .ambient {
+    transition: none;
+  }
+}
+
+  </style>
+  <script>
+(() => {
+  "use strict";
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const revealSections = document.querySelectorAll(".section-reveal");
+
+  if (!prefersReducedMotion && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          obs.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.14,
+        rootMargin: "0px 0px -8% 0px"
+      }
+    );
+
+    revealSections.forEach((section) => observer.observe(section));
+  } else {
+    revealSections.forEach((section) => section.classList.add("is-visible"));
+  }
+
+  const ambientOne = document.querySelector(".ambient-one");
+  const ambientTwo = document.querySelector(".ambient-two");
+
+  if (!prefersReducedMotion && ambientOne && ambientTwo) {
+    let rafId = null;
+    let pointerX = 0;
+    let pointerY = 0;
+
+    const updateParallax = () => {
+      rafId = null;
+
+      const x = (pointerX / window.innerWidth - 0.5) * 18;
+      const y = (pointerY / window.innerHeight - 0.5) * 18;
+
+      ambientOne.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      ambientTwo.style.transform = `translate3d(${-x * 0.7}px, ${-y * 0.7}px, 0)`;
+    };
+
+    window.addEventListener(
+      "pointermove",
+      (event) => {
+        pointerX = event.clientX;
+        pointerY = event.clientY;
+
+        if (!rafId) {
+          rafId = window.requestAnimationFrame(updateParallax);
+        }
+      },
+      { passive: true }
+    );
+  }
+
+  document.querySelectorAll(".btn").forEach((button) => {
+    button.addEventListener("pointerdown", () => {
+      if (!prefersReducedMotion) {
+        button.style.transform = "translateY(1px) scale(.985)";
+      }
+    });
+
+    button.addEventListener("pointerup", () => {
+      button.style.removeProperty("transform");
+    });
+
+    button.addEventListener("pointerleave", () => {
+      button.style.removeProperty("transform");
+    });
+  });
+
+  const year = document.getElementById("year");
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
+})();
+
+  </script>
+</body>
+</html>
