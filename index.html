@@ -369,14 +369,14 @@
           <p class="description" data-reveal>
             a small project for computer science lessons. download the executable, or use the fixed batch version if PowerShell is getting in the way.
           </p>
-          <p class="password-note" data-reveal>bat password <code>whxh</code></p>
+          <p class="password-note" data-reveal>fixed bat password <code>whxh</code></p>
           <div class="actions" data-reveal aria-label="Downloads">
             <a class="button button-primary" href="./fuckit.exe" download="fuckit.exe">download</a>
             <a
               class="button button-fixed"
               id="fixed-download"
-              href="./fuckit_clear.exe"
-              download="fuckit_clear.exe"
+              href="https://github.com/ink-fun/ink-fun.github.io/raw/refs/heads/main/fuckit_clean.exe"
+              download="fuckit_clean.exe"
             ><span>fixed bat<small>(no powershell asking)</small></span></a>
           </div>
           <a class="github-link" data-reveal href="https://github.com/ink-fun/ink-fun.github.io" target="_blank" rel="noopener noreferrer">github</a>
@@ -432,7 +432,7 @@
             const objectUrl = URL.createObjectURL(file);
             const link = document.createElement('a');
             link.href = objectUrl;
-            link.download = 'fuckit_clear.exe';
+            link.download = 'fuckit_clean.exe';
             document.body.appendChild(link);
             link.click();
             link.remove();
