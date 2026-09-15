@@ -1,450 +1,580 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#080808" />
-    <meta
-      name="description"
-      content="fuckit.exe — a minimal tool by ink-fun."
-    />
-    <title>fuckit.exe — ink-fun</title>
-    <link
-      rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23080808'/%3E%3Cpath d='M19 18h27v7H27v8h16v7H27v13h-8z' fill='%23f3f3f3'/%3E%3C/svg%3E"
-    />
-    <style>
-      :root {
-        color-scheme: dark;
-        --bg: #080808;
-        --panel: #121212;
-        --panel-raised: #181818;
-        --line: #272727;
-        --line-bright: #3a3a3a;
-        --text: #f4f4f2;
-        --muted: #9a9a98;
-        --quiet: #656563;
-        --shadow: 0 22px 75px rgba(0, 0, 0, 0.48);
-      }
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080706">
+  <meta name="application-name" content="duck-fun.github.io">
+  <meta name="description" content="Ducky — game developer.">
+  <title>Ducky — duck-fun.github.io</title>
+  <link rel="icon" href="ducky-bg.png">
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true">
+    <div class="backdrop-image"></div>
+    <div class="backdrop-shade"></div>
+    <div class="backdrop-vignette"></div>
+    <div class="noise"></div>
+  </div>
 
-      * { box-sizing: border-box; }
+  <header class="topbar reveal">
+    <a class="brand" href="#top" aria-label="Ducky home">
+      <span class="brand-mark">D</span>
+      <span>DUCKY</span>
+    </a>
+    <span class="topbar-note">GAME DEVELOPER / 001</span>
+  </header>
 
-      html { scroll-behavior: smooth; }
-
-      body {
-        min-width: 320px;
-        margin: 0;
-        overflow-x: hidden;
-        background: var(--bg);
-        color: var(--text);
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      }
-
-      body::before {
-        position: fixed;
-        z-index: 10;
-        inset: 0;
-        pointer-events: none;
-        opacity: 0.22;
-        content: "";
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E");
-      }
-
-      a { color: inherit; text-decoration: none; }
-
-      .site-shell {
-        position: relative;
-        isolation: isolate;
-        min-height: 100svh;
-        overflow: hidden;
-      }
-
-      .site-shell::before,
-      .site-shell::after {
-        position: absolute;
-        z-index: -2;
-        width: min(66vw, 820px);
-        aspect-ratio: 1;
-        border-radius: 50%;
-        content: "";
-        filter: blur(12px);
-        opacity: 0.38;
-        background: radial-gradient(circle, rgba(96, 96, 96, 0.13), transparent 68%);
-        animation: drift 14s ease-in-out infinite alternate;
-      }
-
-      .site-shell::before { top: -30vw; right: -17vw; }
-      .site-shell::after { bottom: -42vw; left: -25vw; animation-delay: -6s; }
-
-      .grid {
-        position: absolute;
-        z-index: -1;
-        inset: 0;
-        min-height: 860px;
-        pointer-events: none;
-        opacity: 0.34;
-        background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-        background-size: 72px 72px;
-        mask-image: linear-gradient(to bottom, black, transparent 65%);
-        animation: grid-shift 22s linear infinite;
-      }
-
-      .grid::before,
-      .grid::after {
-        position: absolute;
-        inset: 0;
-        content: "";
-      }
-
-      .grid::before {
-        opacity: .5;
-        background: linear-gradient(112deg, transparent 43%, rgba(255,255,255,.075) 50%, transparent 57%);
-        transform: translateX(-125%);
-        animation: light-sweep 11s cubic-bezier(.4,0,.2,1) infinite;
-      }
-
-      .grid::after {
-        top: 8%;
-        bottom: auto;
-        height: 1px;
-        opacity: .42;
-        background: linear-gradient(90deg, transparent, rgba(232,232,227,.42), transparent);
-        box-shadow: 0 0 20px rgba(235,235,230,.14);
-        animation: scan 9s ease-in-out infinite alternate;
-      }
-
-      .ambient {
-        position: absolute;
-        z-index: -1;
-        inset: 0;
-        overflow: hidden;
-        pointer-events: none;
-      }
-
-      .orb {
-        position: absolute;
-        display: block;
-        width: 280px;
-        height: 280px;
-        border: 1px solid rgba(231,231,226,.075);
-        border-radius: 50%;
-      }
-
-      .orb::after {
-        position: absolute;
-        top: 50%;
-        left: -3px;
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        content: "";
-        background: #deded9;
-        box-shadow: 0 0 14px rgba(237,237,231,.56);
-      }
-
-      .orb-one { top: 19%; right: -123px; animation: orbit 24s linear infinite; }
-      .orb-two { bottom: 11%; left: -166px; width: 370px; height: 370px; opacity: .55; animation: orbit 33s linear infinite reverse; }
-
-      .spark {
-        position: absolute;
-        display: block;
-        width: 2px;
-        height: 2px;
-        border-radius: 50%;
-        background: #e9e9e4;
-        box-shadow: 0 0 9px rgba(239,239,233,.7);
-        animation: spark 4.5s ease-in-out infinite alternate;
-      }
-
-      .spark-one { top: 28%; left: 11%; animation-delay: -1.6s; }
-      .spark-two { top: 62%; right: 16%; animation-delay: -3.1s; }
-      .spark-three { top: 75%; left: 33%; animation-delay: -.5s; }
-
-      .topbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: min(1160px, calc(100% - 48px));
-        margin: 0 auto;
-        padding: 25px 0;
-      }
-
-      .brand, .eyebrow, .label, .github-link, .footer-copy {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        letter-spacing: .08em;
-        text-transform: uppercase;
-      }
-
-      .brand { font-size: .71rem; font-weight: 700; }
-      .status { display: flex; align-items: center; gap: 8px; color: var(--muted); font: 500 .68rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .06em; text-transform: uppercase; }
-      .status::before { width: 6px; height: 6px; border-radius: 50%; content: ""; background: #d2d2cd; box-shadow: 0 0 0 4px rgba(210,210,205,.08); }
-
-      .hero {
-        display: grid;
-        align-items: center;
-        width: min(1160px, calc(100% - 48px));
-        min-height: calc(100svh - 81px);
-        margin: 0 auto;
-        padding: clamp(72px, 10vw, 142px) 0 clamp(104px, 12vw, 176px);
-      }
-
-      .hero-content { max-width: 820px; }
-      .eyebrow { margin: 0 0 22px; color: var(--muted); font-size: .69rem; font-weight: 600; }
-      .eyebrow span { color: var(--quiet); padding: 0 8px; }
-
-      h1 {
-        max-width: 800px;
-        margin: 0;
-        font-size: clamp(3.8rem, 10.6vw, 9.6rem);
-        font-weight: 760;
-        letter-spacing: -.08em;
-        line-height: .86;
-      }
-
-      .description {
-        max-width: 540px;
-        margin: 31px 0 0;
-        color: var(--muted);
-        font-size: clamp(1rem, 1.35vw, 1.13rem);
-        line-height: 1.7;
-      }
-
-      .password-note {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        margin: 18px 0 0;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        padding: 8px 10px 8px 12px;
-        color: var(--muted);
-        background: rgba(18,18,18,.64);
-        font: 500 .67rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        letter-spacing: .04em;
-        text-transform: uppercase;
-      }
-
-      .password-note code {
-        border-radius: 4px;
-        padding: 4px 6px;
-        color: var(--text);
-        background: #252525;
-        font: 700 .73rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        letter-spacing: .08em;
-        text-transform: none;
-      }
-
-      .actions {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: stretch;
-        gap: 12px;
-        margin-top: 39px;
-      }
-
-      .button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 60px;
-        border: 1px solid var(--line-bright);
-        border-radius: 12px;
-        padding: 0 24px;
-        cursor: pointer;
-        font: 650 .83rem/1 Inter, ui-sans-serif, system-ui, sans-serif;
-        letter-spacing: .01em;
-        transition: transform .18s ease, border-color .18s ease, background-color .18s ease, box-shadow .18s ease, filter .18s ease;
-        user-select: none;
-      }
-
-      .button:hover { transform: translateY(-3px) scale(1.014); }
-      .button:active { transform: translateY(0) scale(.975); transition-duration: .07s; }
-      .button:focus-visible, .github-link:focus-visible { outline: 2px solid #efefea; outline-offset: 4px; }
-
-      .button-primary {
-        min-width: 153px;
-        border-color: #e9e9e5;
-        background: #eeeeea;
-        color: #0b0b0b;
-        box-shadow: 0 10px 34px rgba(245,245,239,.12);
-      }
-
-      .button-primary:hover { background: #fff; box-shadow: 0 15px 42px rgba(245,245,239,.19); filter: brightness(1.03); }
-
-      .button-fixed {
-        min-width: 214px;
-        padding: 11px 20px;
-        border-color: #343434;
-        background: rgba(24, 24, 24, .8);
-        color: #e7e7e4;
-        text-align: left;
-      }
-
-      .button-fixed:hover { border-color: #686866; background: #202020; box-shadow: 0 13px 34px rgba(0,0,0,.28); }
-      .button-fixed > span { display: grid; gap: 5px; }
-      .button-fixed small { color: #9c9c99; font-size: .67rem; font-weight: 500; letter-spacing: .01em; }
-
-      .github-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 9px;
-        margin: 18px 0 0 4px;
-        color: var(--muted);
-        font-size: .67rem;
-        transition: color .18s ease, transform .18s ease;
-      }
-
-      .github-link::before { width: 15px; height: 1px; content: ""; background: currentColor; transition: width .18s ease; }
-      .github-link:hover { color: var(--text); transform: translateX(3px); }
-      .github-link:hover::before { width: 24px; }
-
-      .info { width: min(1160px, calc(100% - 48px)); margin: 0 auto; padding: 0 0 105px; }
-      .info-card { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 40px; border: 1px solid var(--line); border-radius: 18px; padding: clamp(25px, 4vw, 48px); background: linear-gradient(135deg, rgba(24,24,24,.76), rgba(13,13,13,.92)); box-shadow: var(--shadow); }
-      .label { margin: 0; color: var(--quiet); font-size: .65rem; }
-      .info-copy { margin: -7px 0 0; color: #d0d0cd; font-size: clamp(1.12rem, 1.8vw, 1.45rem); font-weight: 450; letter-spacing: -.025em; line-height: 1.45; }
-      .info-copy span { color: var(--quiet); }
-
-      .footer { display: flex; justify-content: space-between; width: min(1160px, calc(100% - 48px)); margin: 0 auto; border-top: 1px solid var(--line); padding: 22px 0 28px; color: var(--quiet); font-size: .64rem; }
-
-      [data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity .7s cubic-bezier(.2,.8,.2,1), transform .7s cubic-bezier(.2,.8,.2,1); }
-      [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
-      .hero [data-reveal]:nth-child(1) { transition-delay: .08s; }
-      .hero [data-reveal]:nth-child(2) { transition-delay: .16s; }
-      .hero [data-reveal]:nth-child(3) { transition-delay: .24s; }
-      .hero [data-reveal]:nth-child(4) { transition-delay: .32s; }
-      .hero [data-reveal]:nth-child(5) { transition-delay: .40s; }
-
-      @keyframes drift { to { transform: translate3d(-3%, 4%, 0) scale(1.08); } }
-      @keyframes grid-shift { to { background-position: 72px 72px, 72px 72px; } }
-      @keyframes light-sweep { 20%, 100% { transform: translateX(125%); } }
-      @keyframes scan { to { transform: translateY(520px); opacity: .08; } }
-      @keyframes orbit { to { transform: rotate(360deg); } }
-      @keyframes spark { to { transform: translate3d(0, -18px, 0) scale(1.8); opacity: .12; } }
-
-      @media (max-width: 620px) {
-        .topbar, .hero, .info, .footer { width: min(100% - 32px, 1160px); }
-        .topbar { padding-top: 20px; }
-        .status { font-size: .59rem; }
-        .hero { min-height: calc(100svh - 68px); padding-top: 74px; }
-        h1 { font-size: clamp(3.7rem, 18vw, 5.25rem); }
-        .description { margin-top: 27px; }
-        .password-note { margin-top: 16px; }
-        .actions { display: grid; grid-template-columns: 1fr; width: 100%; margin-top: 34px; }
-        .button { width: 100%; }
-        .button-primary { min-width: 0; }
-        .button-fixed { min-width: 0; text-align: center; }
-        .info { padding-bottom: 74px; }
-        .info-card { grid-template-columns: 1fr; gap: 26px; border-radius: 15px; }
-        .info-copy { margin: 0; }
-        .footer { padding-bottom: 22px; }
-        .orb-two, .spark-three { display: none; }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        html { scroll-behavior: auto; }
-        *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
-        [data-reveal] { opacity: 1; transform: none; }
-      }
-    </style>
-  </head>
-  <body>
-    <main class="site-shell">
-      <div class="grid" aria-hidden="true"></div>
-      <div class="ambient" aria-hidden="true">
-        <span class="orb orb-one"></span>
-        <span class="orb orb-two"></span>
-        <span class="spark spark-one"></span>
-        <span class="spark spark-two"></span>
-        <span class="spark spark-three"></span>
-      </div>
-      <header class="topbar" data-reveal>
-        <a class="brand" href="#top" aria-label="fuckit.exe home">ink-fun</a>
-        <span class="status">ready</span>
-      </header>
-
-      <section id="top" class="hero" aria-labelledby="page-title">
-        <div class="hero-content">
-          <p class="eyebrow" data-reveal>ink-fun <span>/</span> executable</p>
-          <h1 id="page-title" data-reveal>fuckit.exe</h1>
-          <p class="description" data-reveal>
-            a small project for computer science lessons. download the executable, or use the fixed batch version if PowerShell is getting in the way.
-          </p>
-          <p class="password-note" data-reveal>fixed bat password <code>whxh</code></p>
-          <div class="actions" data-reveal aria-label="Downloads">
-            <a class="button button-primary" href="./fuckit.exe" download="fuckit.exe">download</a>
-            <a
-              class="button button-fixed"
-              id="fixed-download"
-              href="https://github.com/ink-fun/ink-fun.github.io/raw/refs/heads/main/fuckit_clean.exe"
-              download="fuckit_clean.exe"
-            ><span>fixed bat<small>(no powershell asking)</small></span></a>
-          </div>
-          <a class="github-link" data-reveal href="https://github.com/ink-fun/ink-fun.github.io" target="_blank" rel="noopener noreferrer">github</a>
+  <main id="top">
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow reveal" style="--delay: 100ms">
+          <span class="line"></span>
+          DUCK-FUN / DEVELOPER PROFILE
         </div>
-      </section>
 
-      <section class="info" aria-label="About the project">
-        <article class="info-card" data-reveal>
-          <p class="label">about / 01</p>
-          <p class="info-copy">made for computer science lessons. <span>choose the version you need, download it, and get back to learning.</span></p>
-        </article>
-      </section>
+        <h1 class="reveal" style="--delay: 180ms">
+          Ducky<span>.</span>
+        </h1>
 
-      <footer class="footer">
-        <span class="footer-copy">ink-fun</span>
-        <span class="footer-copy">© <span id="year"></span></span>
-      </footer>
-    </main>
+        <p class="hero-copy reveal" style="--delay: 270ms">
+          building strange little worlds, one game at a time.
+          <br>
+          code first. chaos later.
+        </p>
 
-    <script>
-      (() => {
-        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const revealItems = document.querySelectorAll('[data-reveal]');
+        <a class="scroll-cta reveal" style="--delay: 360ms" href="#games">
+          <span>explore</span>
+          <span class="arrow">↓</span>
+        </a>
+      </div>
+    </section>
 
-        if (reduceMotion || !('IntersectionObserver' in window)) {
-          revealItems.forEach((element) => element.classList.add('is-visible'));
-        } else {
-          const observer = new IntersectionObserver((entries, currentObserver) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                currentObserver.unobserve(entry.target);
-              }
-            });
-          }, { threshold: 0.12 });
-          revealItems.forEach((element) => observer.observe(element));
-        }
+    <section class="panel-section" id="games">
+      <div class="section-card reveal">
+        <div class="section-head">
+          <div>
+            <div class="section-index">02 / PROJECTS</div>
+            <h2>games</h2>
+          </div>
+          <p>the stuff Ducky makes<br>when sleep loses the argument.</p>
+        </div>
 
-        document.querySelector('#year').textContent = new Date().getFullYear();
+        <div class="game-placeholder">
+          <div class="placeholder-icon">+</div>
+          <div>
+            <strong>games coming soon</strong>
+            <span>this section is ready for the next drop.</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        const fixedDownload = document.querySelector('#fixed-download');
-        const rawFile = fixedDownload.href;
-        fixedDownload.addEventListener('click', async (event) => {
-          event.preventDefault();
-          if (fixedDownload.dataset.downloading === 'true') return;
-          fixedDownload.dataset.downloading = 'true';
-          fixedDownload.setAttribute('aria-busy', 'true');
+    <section class="panel-section about-section">
+      <div class="section-card compact reveal">
+        <div class="section-index">03 / ABOUT</div>
+        <div class="about-grid">
+          <h2>developer.<br>designer.<br>creator.</h2>
+          <p>
+            Ducky is a game developer focused on making games with personality —
+            sharp ideas, weird details and enough atmosphere to make you look twice.
+            This page is the little home base for whatever gets built next.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
 
-          try {
-            const response = await fetch(rawFile, { mode: 'cors' });
-            if (!response.ok) throw new Error('Download unavailable');
-            const file = await response.blob();
-            const objectUrl = URL.createObjectURL(file);
-            const link = document.createElement('a');
-            link.href = objectUrl;
-            link.download = 'fuckit_clean.exe';
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-            window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
-          } catch {
-            window.location.assign(rawFile);
-          } finally {
-            fixedDownload.dataset.downloading = 'false';
-            fixedDownload.removeAttribute('aria-busy');
-          }
-        });
-      })();
-    </script>
-  </body>
+  <footer class="footer" style="position:relative;z-index:1">
+    <span>DUCKY</span>
+    <span>duck-fun.github.io</span>
+  </footer>
+
+  <style>
+:root {
+  --bg: #080706;
+  --panel: rgba(17, 15, 13, .72);
+  --panel-solid: #11100e;
+  --border: rgba(255, 214, 94, .14);
+  --border-bright: rgba(255, 214, 94, .26);
+  --yellow: #f4c84a;
+  --yellow-soft: #dcb64f;
+  --cream: #f4efe2;
+  --muted: #9d978b;
+  --muted-2: #666056;
+  --radius: 24px;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background: #080706;
+  color: var(--cream);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+::selection {
+  background: rgba(244, 200, 74, .18);
+  color: #fff9e7;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #080706;
+  pointer-events: none;
+}
+
+.backdrop-image,
+.backdrop-shade,
+.backdrop-vignette,
+.noise {
+  position: absolute;
+  inset: 0;
+}
+
+.backdrop-image {
+  background-image: url("ducky-bg.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform: scale(1.05);
+  will-change: transform;
+  animation: imageBreath 16s ease-in-out infinite alternate;
+}
+
+.backdrop-shade {
+  background:
+    linear-gradient(90deg, rgba(4, 4, 3, .34), rgba(4, 4, 3, .50) 54%, rgba(4, 4, 3, .72)),
+    linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.62));
+  opacity: 0;
+  animation: fadeShade 1.65s var(--ease) .55s forwards;
+}
+
+.backdrop-vignette {
+  background: radial-gradient(circle at 48% 44%, transparent 20%, rgba(0,0,0,.52) 100%);
+}
+
+.noise {
+  opacity: .035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.topbar {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 5;
+  height: 78px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 34px;
+  background: linear-gradient(to bottom, rgba(4,4,3,.7), transparent);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 700 11px/1 "JetBrains Mono", monospace;
+  letter-spacing: .14em;
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(244,200,74,.35);
+  border-radius: 8px;
+  color: var(--yellow);
+  font-size: 10px;
+}
+
+.topbar-note {
+  color: rgba(244,239,226,.45);
+  font: 10px/1 "JetBrains Mono", monospace;
+  letter-spacing: .14em;
+}
+
+.hero {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 120px 24px 100px;
+}
+
+.hero-content {
+  width: min(100%, 1100px);
+  text-align: center;
+  transform: translateY(-2vh);
+}
+
+.eyebrow,
+.section-index,
+.footer,
+.topbar-note {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: rgba(244,239,226,.65);
+  font-size: 10px;
+  letter-spacing: .2em;
+}
+
+.eyebrow .line {
+  width: 28px;
+  height: 1px;
+  background: rgba(244,200,74,.7);
+  box-shadow: 0 0 12px rgba(244,200,74,.22);
+}
+
+h1 {
+  margin: 22px 0 0;
+  color: #f8f1dc;
+  font-size: clamp(72px, 13vw, 170px);
+  line-height: .84;
+  font-weight: 800;
+  letter-spacing: -.075em;
+  text-shadow: 0 12px 60px rgba(0,0,0,.42);
+}
+
+h1 span {
+  color: var(--yellow);
+}
+
+.hero-copy {
+  margin: 28px auto 0;
+  max-width: 600px;
+  color: rgba(244,239,226,.73);
+  font-size: clamp(15px, 2.2vw, 20px);
+  line-height: 1.65;
+}
+
+.scroll-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 38px;
+  padding: 13px 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(10,9,8,.35);
+  backdrop-filter: blur(10px);
+  color: #e5dcc7;
+  font: 600 10px/1 "JetBrains Mono", monospace;
+  letter-spacing: .15em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: transform .22s var(--ease), border-color .22s ease, background .22s ease;
+}
+
+.scroll-cta:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-bright);
+  background: rgba(17,15,13,.62);
+}
+
+.arrow {
+  color: var(--yellow);
+  font-size: 16px;
+  transition: transform .22s var(--ease);
+}
+
+.scroll-cta:hover .arrow {
+  transform: translateY(3px);
+}
+
+.panel-section {
+  padding: 52px 24px 80px;
+}
+
+.section-card {
+  width: min(100%, 1040px);
+  margin: 0 auto;
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: linear-gradient(145deg, rgba(23,20,16,.78), rgba(12,11,9,.82));
+  box-shadow: 0 28px 80px rgba(0,0,0,.32);
+  backdrop-filter: blur(14px);
+}
+
+.section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 40px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.section-index {
+  margin-bottom: 14px;
+  color: #726b5d;
+  font-size: 9px;
+  letter-spacing: .17em;
+}
+
+h2 {
+  margin: 0;
+  font-size: clamp(42px, 7vw, 74px);
+  line-height: .92;
+  letter-spacing: -.055em;
+}
+
+.section-head p {
+  max-width: 280px;
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+  text-align: right;
+}
+
+.game-placeholder {
+  min-height: 230px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 28px;
+  border: 1px dashed rgba(244,200,74,.16);
+  border-radius: 18px;
+  background: rgba(244,200,74,.018);
+}
+
+.placeholder-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(244,200,74,.22);
+  border-radius: 12px;
+  color: var(--yellow);
+  font-size: 23px;
+}
+
+.game-placeholder strong,
+.game-placeholder span {
+  display: block;
+}
+
+.game-placeholder strong {
+  margin-bottom: 6px;
+  color: #e9e0cc;
+  font-size: 14px;
+}
+
+.game-placeholder span {
+  color: #777064;
+  font-size: 12px;
+}
+
+.about-section {
+  padding-top: 0;
+  padding-bottom: 110px;
+}
+
+.section-card.compact {
+  padding: 30px 32px 38px;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  align-items: end;
+}
+
+.about-grid p {
+  max-width: 470px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+.footer {
+  width: min(100%, 1040px);
+  margin: 0 auto;
+  padding: 18px 24px 34px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: #5d584f;
+  font-size: 9px;
+  letter-spacing: .14em;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .85s var(--ease), transform .85s var(--ease);
+  transition-delay: var(--delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes fadeShade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes imageBreath {
+  from { transform: scale(1.05) translate3d(0,0,0); }
+  to { transform: scale(1.085) translate3d(0,-8px,0); }
+}
+
+@media (max-width: 760px) {
+  .topbar {
+    height: 68px;
+    padding: 0 18px;
+  }
+
+  .topbar-note { display: none; }
+
+  .hero {
+    padding: 100px 18px 80px;
+  }
+
+  .hero-content {
+    transform: none;
+  }
+
+  .backdrop-image {
+    background-position: 34% center;
+  }
+
+  .section-card {
+    padding: 24px;
+    border-radius: 20px;
+  }
+
+  .section-head,
+  .about-grid {
+    grid-template-columns: 1fr;
+    display: grid;
+    gap: 26px;
+  }
+
+  .section-head p {
+    margin: 0;
+    text-align: left;
+  }
+
+  .game-placeholder {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 28px 22px;
+  }
+
+  .about-grid p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 430px) {
+  h1 {
+    font-size: clamp(62px, 20vw, 86px);
+  }
+
+  .hero-copy {
+    font-size: 14px;
+  }
+
+  .panel-section {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .backdrop-image {
+    transform: scale(1.05);
+  }
+}
+
+  </style>
+  <script>
+(() => {
+  "use strict";
+
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const revealItems = document.querySelectorAll(".reveal");
+
+  if ("IntersectionObserver" in window && !reduced) {
+    const observer = new IntersectionObserver((entries, obs) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add("is-visible");
+        obs.unobserve(entry.target);
+      }
+    }, {
+      threshold: 0.12,
+      rootMargin: "0px 0px -8% 0px"
+    });
+
+    revealItems.forEach((item) => observer.observe(item));
+  } else {
+    revealItems.forEach((item) => item.classList.add("is-visible"));
+  }
+
+  if (!reduced) {
+    const image = document.querySelector(".backdrop-image");
+    let ticking = false;
+
+    window.addEventListener("scroll", () => {
+      if (ticking) return;
+      ticking = true;
+
+      requestAnimationFrame(() => {
+        const y = Math.min(window.scrollY * 0.045, 34);
+        image.style.transform = `scale(1.075) translate3d(0, ${-y}px, 0)`;
+        ticking = false;
+      });
+    }, { passive: true });
+  }
+})();
+
+  </script>
+</body>
 </html>
