@@ -86,8 +86,20 @@
   </main>
 
   <footer class="footer" style="position:relative;z-index:1">
-    <span>DUCKY</span>
-    <span>duck-fun.github.io</span>
+    <div class="footer-brand">
+      <span>DUCKY</span>
+      <span>duck-fun.github.io</span>
+    </div>
+    <div class="social-links" aria-label="Ducky social links">
+      <a class="social-link" href="https://discord.com/users/1467208734810837147" target="_blank" rel="noopener noreferrer">
+        <span class="social-icon">◉</span>
+        <span>discord profile</span>
+      </a>
+      <a class="social-link" href="https://discord.gg/PYE6d9nncv" target="_blank" rel="noopener noreferrer">
+        <span class="social-icon">⌁</span>
+        <span>discord server</span>
+      </a>
+    </div>
   </footer>
 
   <style>
@@ -414,6 +426,48 @@ h2 {
   line-height: 1.85;
 }
 
+.footer-brand,
+.social-links {
+  display: flex;
+  align-items: center;
+}
+
+.footer-brand {
+  gap: 20px;
+}
+
+.social-links {
+  gap: 9px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 11px;
+  border: 1px solid rgba(244,200,74,.10);
+  border-radius: 11px;
+  background: rgba(10,9,8,.28);
+  color: #777064;
+  text-decoration: none;
+  letter-spacing: .05em;
+  transition: transform .22s var(--ease), color .22s ease, border-color .22s ease, background .22s ease;
+}
+
+.social-link:hover {
+  transform: translateY(-2px);
+  color: #eadfc9;
+  border-color: rgba(244,200,74,.24);
+  background: rgba(244,200,74,.05);
+}
+
+.social-icon {
+  color: var(--yellow);
+  font-size: 11px;
+}
+
 .footer {
   width: min(100%, 1040px);
   margin: 0 auto;
@@ -493,6 +547,20 @@ h2 {
 
   .about-grid p {
     font-size: 14px;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footer-brand {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .social-links {
+    justify-content: flex-start;
   }
 }
 
