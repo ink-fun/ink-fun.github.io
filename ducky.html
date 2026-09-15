@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080706">
+  <meta name="application-name" content="duck-fun.github.io">
+  <meta name="description" content="Ducky — game developer.">
+  <title>Ducky — duck-fun.github.io</title>
+  <link rel="icon" href="ducky-bg.png">
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true">
+    <div class="backdrop-image"></div>
+    <div class="backdrop-shade"></div>
+    <div class="backdrop-vignette"></div>
+    <div class="noise"></div>
+  </div>
+
+  <header class="topbar reveal">
+    <a class="brand" href="#top" aria-label="Ducky home">
+      <span class="brand-mark">D</span>
+      <span>DUCKY</span>
+    </a>
+    <span class="topbar-note">GAME DEVELOPER / 001</span>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow reveal" style="--delay: 100ms">
+          <span class="line"></span>
+          DUCK-FUN / DEVELOPER PROFILE
+        </div>
+
+        <h1 class="reveal" style="--delay: 180ms">
+          Ducky<span>.</span>
+        </h1>
+
+        <p class="hero-copy reveal" style="--delay: 270ms">
+          building strange little worlds, one game at a time.
+          <br>
+          code first. chaos later.
+        </p>
+
+        <a class="scroll-cta reveal" style="--delay: 360ms" href="#games">
+          <span>explore</span>
+          <span class="arrow">↓</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="panel-section" id="games">
+      <div class="section-card reveal">
+        <div class="section-head">
+          <div>
+            <div class="section-index">02 / PROJECTS</div>
+            <h2>games</h2>
+          </div>
+          <p>the stuff Ducky makes<br>when sleep loses the argument.</p>
+        </div>
+
+        <div class="game-placeholder">
+          <div class="placeholder-icon">+</div>
+          <div>
+            <strong>games coming soon</strong>
+            <span>this section is ready for the next drop.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel-section about-section">
+      <div class="section-card compact reveal">
+        <div class="section-index">03 / ABOUT</div>
+        <div class="about-grid">
+          <h2>developer.<br>designer.<br>creator.</h2>
+          <p>
+            Ducky is a game developer focused on making games with personality —
+            sharp ideas, weird details and enough atmosphere to make you look twice.
+            This page is the little home base for whatever gets built next.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" style="position:relative;z-index:1">
+    <span>DUCKY</span>
+    <span>duck-fun.github.io</span>
+  </footer>
+
+  <style>
+:root {
+  --bg: #080706;
+  --panel: rgba(17, 15, 13, .72);
+  --panel-solid: #11100e;
+  --border: rgba(255, 214, 94, .14);
+  --border-bright: rgba(255, 214, 94, .26);
+  --yellow: #f4c84a;
+  --yellow-soft: #dcb64f;
+  --cream: #f4efe2;
+  --muted: #9d978b;
+  --muted-2: #666056;
+  --radius: 24px;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background: #080706;
+  color: var(--cream);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+::selection {
+  background: rgba(244, 200, 74, .18);
+  color: #fff9e7;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #080706;
+  pointer-events: none;
+}
+
+.backdrop-image,
+.backdrop-shade,
+.backdrop-vignette,
+.noise {
+  position: absolute;
+  inset: 0;
+}
+
+.backdrop-image {
+  background-image: url("ducky-bg.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform: scale(1.05);
+  will-change: transform;
+  animation: imageBreath 16s ease-in-out infinite alternate;
+}
+
+.backdrop-shade {
+  background:
+    linear-gradient(90deg, rgba(4, 4, 3, .34), rgba(4, 4, 3, .50) 54%, rgba(4, 4, 3, .72)),
+    linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.62));
+  opacity: 0;
+  animation: fadeShade 1.65s var(--ease) .55s forwards;
+}
+
+.backdrop-vignette {
+  background: radial-gradient(circle at 48% 44%, transparent 20%, rgba(0,0,0,.52) 100%);
+}
+
+.noise {
+  opacity: .035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.topbar {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 5;
+  height: 78px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 34px;
+  background: linear-gradient(to bottom, rgba(4,4,3,.7), transparent);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 700 11px/1 "JetBrains Mono", monospace;
+  letter-spacing: .14em;
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(244,200,74,.35);
+  border-radius: 8px;
+  color: var(--yellow);
+  font-size: 10px;
+}
+
+.topbar-note {
+  color: rgba(244,239,226,.45);
+  font: 10px/1 "JetBrains Mono", monospace;
+  letter-spacing: .14em;
+}
+
+.hero {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 120px 24px 100px;
+}
+
+.hero-content {
+  width: min(100%, 1100px);
+  text-align: center;
+  transform: translateY(-2vh);
+}
+
+.eyebrow,
+.section-index,
+.footer,
+.topbar-note {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: rgba(244,239,226,.65);
+  font-size: 10px;
+  letter-spacing: .2em;
+}
+
+.eyebrow .line {
+  width: 28px;
+  height: 1px;
+  background: rgba(244,200,74,.7);
+  box-shadow: 0 0 12px rgba(244,200,74,.22);
+}
+
+h1 {
+  margin: 22px 0 0;
+  color: #f8f1dc;
+  font-size: clamp(72px, 13vw, 170px);
+  line-height: .84;
+  font-weight: 800;
+  letter-spacing: -.075em;
+  text-shadow: 0 12px 60px rgba(0,0,0,.42);
+}
+
+h1 span {
+  color: var(--yellow);
+}
+
+.hero-copy {
+  margin: 28px auto 0;
+  max-width: 600px;
+  color: rgba(244,239,226,.73);
+  font-size: clamp(15px, 2.2vw, 20px);
+  line-height: 1.65;
+}
+
+.scroll-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 38px;
+  padding: 13px 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(10,9,8,.35);
+  backdrop-filter: blur(10px);
+  color: #e5dcc7;
+  font: 600 10px/1 "JetBrains Mono", monospace;
+  letter-spacing: .15em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: transform .22s var(--ease), border-color .22s ease, background .22s ease;
+}
+
+.scroll-cta:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-bright);
+  background: rgba(17,15,13,.62);
+}
+
+.arrow {
+  color: var(--yellow);
+  font-size: 16px;
+  transition: transform .22s var(--ease);
+}
+
+.scroll-cta:hover .arrow {
+  transform: translateY(3px);
+}
+
+.panel-section {
+  padding: 52px 24px 80px;
+}
+
+.section-card {
+  width: min(100%, 1040px);
+  margin: 0 auto;
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: linear-gradient(145deg, rgba(23,20,16,.78), rgba(12,11,9,.82));
+  box-shadow: 0 28px 80px rgba(0,0,0,.32);
+  backdrop-filter: blur(14px);
+}
+
+.section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 40px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.section-index {
+  margin-bottom: 14px;
+  color: #726b5d;
+  font-size: 9px;
+  letter-spacing: .17em;
+}
+
+h2 {
+  margin: 0;
+  font-size: clamp(42px, 7vw, 74px);
+  line-height: .92;
+  letter-spacing: -.055em;
+}
+
+.section-head p {
+  max-width: 280px;
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+  text-align: right;
+}
+
+.game-placeholder {
+  min-height: 230px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 28px;
+  border: 1px dashed rgba(244,200,74,.16);
+  border-radius: 18px;
+  background: rgba(244,200,74,.018);
+}
+
+.placeholder-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(244,200,74,.22);
+  border-radius: 12px;
+  color: var(--yellow);
+  font-size: 23px;
+}
+
+.game-placeholder strong,
+.game-placeholder span {
+  display: block;
+}
+
+.game-placeholder strong {
+  margin-bottom: 6px;
+  color: #e9e0cc;
+  font-size: 14px;
+}
+
+.game-placeholder span {
+  color: #777064;
+  font-size: 12px;
+}
+
+.about-section {
+  padding-top: 0;
+  padding-bottom: 110px;
+}
+
+.section-card.compact {
+  padding: 30px 32px 38px;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  align-items: end;
+}
+
+.about-grid p {
+  max-width: 470px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+.footer {
+  width: min(100%, 1040px);
+  margin: 0 auto;
+  padding: 18px 24px 34px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: #5d584f;
+  font-size: 9px;
+  letter-spacing: .14em;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .85s var(--ease), transform .85s var(--ease);
+  transition-delay: var(--delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes fadeShade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes imageBreath {
+  from { transform: scale(1.05) translate3d(0,0,0); }
+  to { transform: scale(1.085) translate3d(0,-8px,0); }
+}
+
+@media (max-width: 760px) {
+  .topbar {
+    height: 68px;
+    padding: 0 18px;
+  }
+
+  .topbar-note { display: none; }
+
+  .hero {
+    padding: 100px 18px 80px;
+  }
+
+  .hero-content {
+    transform: none;
+  }
+
+  .backdrop-image {
+    background-position: 34% center;
+  }
+
+  .section-card {
+    padding: 24px;
+    border-radius: 20px;
+  }
+
+  .section-head,
+  .about-grid {
+    grid-template-columns: 1fr;
+    display: grid;
+    gap: 26px;
+  }
+
+  .section-head p {
+    margin: 0;
+    text-align: left;
+  }
+
+  .game-placeholder {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 28px 22px;
+  }
+
+  .about-grid p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 430px) {
+  h1 {
+    font-size: clamp(62px, 20vw, 86px);
+  }
+
+  .hero-copy {
+    font-size: 14px;
+  }
+
+  .panel-section {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .backdrop-image {
+    transform: scale(1.05);
+  }
+}
+
+  </style>
+  <script>
+(() => {
+  "use strict";
+
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const revealItems = document.querySelectorAll(".reveal");
+
+  if ("IntersectionObserver" in window && !reduced) {
+    const observer = new IntersectionObserver((entries, obs) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add("is-visible");
+        obs.unobserve(entry.target);
+      }
+    }, {
+      threshold: 0.12,
+      rootMargin: "0px 0px -8% 0px"
+    });
+
+    revealItems.forEach((item) => observer.observe(item));
+  } else {
+    revealItems.forEach((item) => item.classList.add("is-visible"));
+  }
+
+  if (!reduced) {
+    const image = document.querySelector(".backdrop-image");
+    let ticking = false;
+
+    window.addEventListener("scroll", () => {
+      if (ticking) return;
+      ticking = true;
+
+      requestAnimationFrame(() => {
+        const y = Math.min(window.scrollY * 0.045, 34);
+        image.style.transform = `scale(1.075) translate3d(0, ${-y}px, 0)`;
+        ticking = false;
+      });
+    }, { passive: true });
+  }
+})();
+
+  </script>
+</body>
+</html>
