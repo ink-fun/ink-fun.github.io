@@ -2,7 +2,9 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,
+                   maximum-scale=1.0, user-scalable=no">
 
     <title>Video</title>
 
@@ -13,15 +15,19 @@
             box-sizing: border-box;
         }
 
-        html, body {
+        html,
+        body {
             width: 100%;
             height: 100%;
             overflow: hidden;
             background: #000;
         }
 
-        /* видео */
-        video {
+        /* =========================
+           ВИДЕО
+        ========================= */
+
+        #video {
             position: fixed;
             inset: 0;
 
@@ -38,17 +44,20 @@
                 transform 2s ease;
         }
 
-        /* после запуска */
-        body.started video {
+        body.started #video {
             opacity: 1;
             transform: scale(1);
         }
 
-        /* стартовый экран */
+        /* =========================
+           СТАРТОВЫЙ ЭКРАН
+        ========================= */
+
         #start {
             position: fixed;
             inset: 0;
-            z-index: 10;
+
+            z-index: 100;
 
             display: flex;
             align-items: center;
@@ -61,23 +70,32 @@
                 visibility 1.2s ease;
         }
 
-        /* кружочек */
+        body.started #start {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* =========================
+           КРУЖОК
+        ========================= */
+
         #circle {
             width: 70px;
             height: 70px;
 
             border-radius: 50%;
 
-            border: 2px solid rgba(255,255,255,0.8);
+            border: 2px solid rgba(255, 255, 255, 0.8);
 
             position: relative;
 
-            animation: pulse 1.8s ease-in-out infinite;
-
             cursor: pointer;
+
+            animation: pulse 1.8s ease-in-out infinite;
         }
 
-        /* внутренний кружок */
+        /* маленькая точка внутри */
+
         #circle::after {
             content: "";
 
@@ -86,7 +104,7 @@
             width: 12px;
             height: 12px;
 
-            background: white;
+            background: #fff;
 
             border-radius: 50%;
 
@@ -96,7 +114,8 @@
             transform: translate(-50%, -50%);
         }
 
-        /* намёк на нажатие */
+        /* внешняя волна */
+
         #circle::before {
             content: "";
 
@@ -106,13 +125,14 @@
 
             border-radius: 50%;
 
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.25);
 
             animation: ripple 1.8s ease-out infinite;
         }
 
         @keyframes pulse {
-            0%, 100% {
+            0%,
+            100% {
                 transform: scale(1);
                 opacity: 0.7;
             }
@@ -134,36 +154,33 @@
                 opacity: 0;
             }
         }
-
-        /* скрытие стартового экрана */
-        body.started #start {
-            opacity: 0;
-            visibility: hidden;
-        }
     </style>
 </head>
 
 <body>
 
+    <!-- стартовый экран -->
     <div id="start">
         <div id="circle"></div>
     </div>
 
+    <!-- видео -->
     <video
         id="video"
         src="./vid.mp4"
         muted
         loop
         playsinline
-        preload="auto"
-    ></video>
+        preload="auto">
+    </video>
 
+    <!-- музыка -->
     <audio
         id="music"
         src="./song.mp3"
         loop
-        preload="auto"
-    ></audio>
+        preload="auto">
+    </audio>
 
     <script>
         const start = document.getElementById("start");
@@ -173,24 +190,44 @@
 
         let started = false;
 
-        function startExperience() {
+        async function startExperience() {
             if (started) return;
+
             started = true;
 
-            // запускаем видео
-            video.play().catch(() => {});
+            try {
+                /*
+                 * Запускаем музыку и видео
+                 * непосредственно после нажатия.
+                 */
 
-            // запускаем музыку
-            music.play().catch(() => {});
+                music.currentTime = 0;
+                video.currentTime = 0;
 
-            // плавно показываем всё
-            document.body.classList.add("started");
+                await music.play();
+                await video.play();
+
+                // показываем видео
+                document.body.classList.add("started");
+
+            } catch (error) {
+                console.error(
+                    "Не удалось запустить медиа:",
+                    error
+                );
+
+                started = false;
+            }
         }
 
-        circle.addEventListener("click", startExperience);
-        circle.addEventListener("touchstart", startExperience, {
-            passive: true
-        });
+        /*
+         * pointerdown работает и на телефонах,
+         * и на ПК.
+         */
+        circle.addEventListener(
+            "pointerdown",
+            startExperience
+        );
     </script>
 
 </body>
