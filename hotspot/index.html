@@ -20,25 +20,178 @@
             background: #000;
         }
 
+        /* видео */
         video {
+            position: fixed;
+            inset: 0;
+
             width: 100%;
             height: 100%;
+
             object-fit: cover;
-            display: block;
+
+            opacity: 0;
+            transform: scale(1.04);
+
+            transition:
+                opacity 1.5s ease,
+                transform 2s ease;
+        }
+
+        /* после запуска */
+        body.started video {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* стартовый экран */
+        #start {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #000;
+
+            transition:
+                opacity 1.2s ease,
+                visibility 1.2s ease;
+        }
+
+        /* кружочек */
+        #circle {
+            width: 70px;
+            height: 70px;
+
+            border-radius: 50%;
+
+            border: 2px solid rgba(255,255,255,0.8);
+
+            position: relative;
+
+            animation: pulse 1.8s ease-in-out infinite;
+
+            cursor: pointer;
+        }
+
+        /* внутренний кружок */
+        #circle::after {
+            content: "";
+
+            position: absolute;
+
+            width: 12px;
+            height: 12px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            top: 50%;
+            left: 50%;
+
+            transform: translate(-50%, -50%);
+        }
+
+        /* намёк на нажатие */
+        #circle::before {
+            content: "";
+
+            position: absolute;
+
+            inset: -12px;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(255,255,255,0.2);
+
+            animation: ripple 1.8s ease-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: scale(1.08);
+                opacity: 1;
+            }
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* скрытие стартового экрана */
+        body.started #start {
+            opacity: 0;
+            visibility: hidden;
         }
     </style>
 </head>
 
 <body>
 
+    <div id="start">
+        <div id="circle"></div>
+    </div>
+
     <video
-        src="vid.mp4"
-        autoplay
+        id="video"
+        src="./vid.mp4"
         muted
         loop
         playsinline
-        controlslist="nodownload nofullscreen noremoteplayback"
+        preload="auto"
     ></video>
+
+    <audio
+        id="music"
+        src="./song.mp3"
+        loop
+        preload="auto"
+    ></audio>
+
+    <script>
+        const start = document.getElementById("start");
+        const circle = document.getElementById("circle");
+        const video = document.getElementById("video");
+        const music = document.getElementById("music");
+
+        let started = false;
+
+        function startExperience() {
+            if (started) return;
+            started = true;
+
+            // запускаем видео
+            video.play().catch(() => {});
+
+            // запускаем музыку
+            music.play().catch(() => {});
+
+            // плавно показываем всё
+            document.body.classList.add("started");
+        }
+
+        circle.addEventListener("click", startExperience);
+        circle.addEventListener("touchstart", startExperience, {
+            passive: true
+        });
+    </script>
 
 </body>
 </html>
